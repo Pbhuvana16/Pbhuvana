@@ -1,0 +1,7 @@
+{
+  "swiggy_address": "0.0.0.0",
+  "port1": 5000,
+
+   "zomato_address": "0.0.0.0",
+   "port2": 5001
+}
