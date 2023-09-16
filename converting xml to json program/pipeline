@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Check out your source code from your version control system (e.g., Git)
+                checkout scm
+            }
+        }
+
+        stage('Convert XML to JSON') {
+            steps {
+                script {
+                    // Define the XML file name
+                    def xmlFileName = 'my_xml.xml'
+
+                    // Read the XML file content
+                    def xmlContent = readFile(xmlFileName)
+
+                    // Run the Python script to convert XML to JSON
+                    def jsonContent = sh(script: "python3 xml_json.py", returnStdout: true)
+
+                    // Print the JSON content (optional)
+                    echo "JSON Data:\n${jsonContent}"
+
+                    // You can save the JSON content as an artifact or take other actions here
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Archive build artifacts (if any)
+            archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+        }
+    }
+}
