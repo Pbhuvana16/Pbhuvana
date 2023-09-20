@@ -3,15 +3,6 @@ from flask import Flask, request, jsonify
 # Create a Flask web application instance
 app = Flask(__name__)
 
-# Sample data 
-subjects = [
-    {"subject_number": "1", "subject_name": "Maths", "marks": "95"},
-    {"subject_number": "2", "subject_name": "Physics", "marks": "98"},
-    {"subject_number": "3", "subject_name": "Chemistry", "marks": "90"},
-    {"subject_number": "4", "subject_name": "English", "marks": "90"},
-    {"subject_number": "5", "subject_name": "Telugu", "marks": "95"},
-]
-
 # Define a route that responds to HTTP GET requests at '/'
 @app.route('/', methods=['GET'])
 def get():
