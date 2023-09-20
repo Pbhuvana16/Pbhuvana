@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Uncomment and configure this if needed
-    }
+    //environment {
+        //DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Uncomment and configure this if needed
+   // }
 
     stages {
         stage('Build') {
