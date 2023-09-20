@@ -14,7 +14,7 @@ ENV FLASK_RUN_PORT 5000
 WORKDIR /app
 # Copy the current directory contents into the container at /app
 
-COPY subject_flask.py /app 
+COPY getsubjects.py /app 
 
 # Install any needed packages specified in requirements.txt
 
