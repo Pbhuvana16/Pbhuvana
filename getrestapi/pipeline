@@ -6,14 +6,6 @@ pipeline{
        // DOCKERHUB_CREDENTIALS=credentials('dockerhub')
     //}
 
-    stages {
-        stage('gitclone') {
-
-            steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'Exercise1']], userRemoteConfigs: [[url: 'https://github.com/Pbhuvana16/Pbhuvana.git']]])
-            }
-        }
-
        stage('Build') {
     steps {
         sh 'pwd'
