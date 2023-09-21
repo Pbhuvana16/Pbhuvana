@@ -1,0 +1,14 @@
+devices:
+  sbx-ao:
+    connections:
+      cli:
+        ip: 131.226.217.151
+        protocol: ssh
+    credentials:
+      default:
+        password: Admin_1234!
+        username: admin
+      enable:
+        password: '%ASK{}'
+    os: nxos
+    type: nxos
