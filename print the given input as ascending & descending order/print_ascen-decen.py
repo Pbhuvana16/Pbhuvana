@@ -18,7 +18,11 @@ def input_words():
         word = input("Enter a word (or END to stop): ")
         if word == 'END':
             break
-        words.append(word)
+        # Check if the input is a valid word (contains only alphabetic characters)
+        if word.isalpha():
+            words.append(word)
+        else:
+            print("Invalid input. Please enter a valid word.")
     return words
 
 # Function to print numbers in ascending and descending order
