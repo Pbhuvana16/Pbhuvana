@@ -9,9 +9,6 @@ COPY swiggy.py /one-many_pro
 COPY zomato.py /one-many_pro
 COPY config.json /one-many_pro
 
-#Install any needed packages specified in requirements.txt
-# If you have a requirements.txt file for dependencies
-
 
 #Expose the ports for both servers
 EXPOSE 5000
