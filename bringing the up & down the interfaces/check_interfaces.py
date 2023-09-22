@@ -6,11 +6,9 @@ class CheckAndEnableInterface(aetest.Testcase):
 
     @aetest.setup
     def setup(self):
-        # Load the testbed file (update 'my_yaml2.yaml' with your testbed file)
         self.tb = loader.load('my_yaml2.yaml')
-        self.device = self.tb.devices['sbx-ao']  # Replace with your device name
-        self.interface_name = 'Ethernet1/6'  # Replace with the interface name to check
-
+        self.device = self.tb.devices['sbx-ao']  
+        self.interface_name = 'Ethernet1/6'  
         # Connect to the device
         self.device.connect()
 
