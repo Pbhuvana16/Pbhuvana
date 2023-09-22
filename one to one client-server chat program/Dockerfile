@@ -8,9 +8,6 @@ WORKDIR /app
 COPY sender.py /app
 COPY config.json /app
 
-#Install any needed packages specified in requirements.txt
-# If you have a requirements.txt file for dependencies
-
 
 #Define the command to run your application
 CMD ["python", "sender.py"] 
