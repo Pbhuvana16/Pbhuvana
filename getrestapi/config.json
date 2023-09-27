@@ -1,4 +1,5 @@
-[
+{
+ "subjects":[
     {
         "subject_number": "1",
         "subject_name": "Maths",
@@ -25,3 +26,4 @@
         "marks": "95"
     }
 ]
+}
