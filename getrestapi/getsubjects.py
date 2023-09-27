@@ -9,7 +9,7 @@ with open('config.json', 'r') as config_file:
     config_data = json.load(config_file)
 
 # Define a route that responds to HTTP GET requests at '/'
-@app.route('/', methods=['GET'])
+@app.route('/subjects', methods=['GET'])
 def get():
     # Return a JSON format of subjects
     return jsonify(config_data['subjects'])
