@@ -25,7 +25,7 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    def ec2Host = '13.48.135.165 '  
+                    def ec2Host = '13.48.135.165'  
                     def ec2User = 'ec2-user'  
                     def privateKey = 'pemkey' 
                     def privateKeyPath = credentials(privateKey)
