@@ -1,19 +1,47 @@
 pipeline {
     agent any
-
-    //environment {
-        //DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Uncomment and configure this if needed
-   // }
-
     stages {
         stage('Build') {
             steps {
-                dir('getrestapi') {
+                dir('Flask GET Rest API') {
                     sh 'ls'
-                    sh 'docker build -t flask -f Dockerfile .'
+                    sh 'docker build -t restapi -f Dockerfile .'
+                }
+            }
+        }
+
+ 
+
+        stage('Push to Docker Hub') {
+            steps {
+                sh "docker login -u bhuvana.pannem16@gmail.com -p 'Sasikala@1234??'"
+                sh 'docker tag restapi pbhuvana16/pbhuvana16:restapi'
+                sh "docker push pbhuvana16/pbhuvana16:restapi"
+            }
+        }
+
+ 
+
+        stage('Deploy to EC2') {
+            steps {
+                script {
+                    def ec2Host = '13.48.135.165 '  
+                    def ec2User = 'newkey'  
+                    def privateKey = '/home/user/Downloads/newkey.pem' 
+ 
+
+                    // SSH into the EC2 instance and execute Docker-related commands
+                    sh """
+                        ssh -i $privateKey -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host << EOF
+                        sh "docker login -u bhuvana.pannem16@gmail.com -p 'Sasikala@1234??'"
+                        docker pull pbhuvana16/pbhuvana16:restapi
+                        docker run -d -p 5000:5000 pbhuvana16/pbhuvana16:restapi
+                        EOF
+                    """
                 }
             }
         }
     }
 }
+
 
