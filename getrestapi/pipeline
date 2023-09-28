@@ -32,7 +32,7 @@ pipeline {
 
                     // SSH into the EC2 instance and execute Docker-related commands
                     sh """
-                        ssh -i $privateKey -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host << EOF
+                        ssh -i -v $privateKey -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host << EOF
                         sh "docker login -u bhuvana.pannem16@gmail.com -p 'Sasikala@1234??'"
                         docker pull pbhuvana16/pbhuvana16:restapi
                         docker run -d -p 5000:5000 pbhuvana16/pbhuvana16:restapi
