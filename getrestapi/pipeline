@@ -27,7 +27,7 @@ pipeline {
                 script {
                     def ec2Host = '13.48.135.165 '  
                     def ec2User = 'ec2-user'  
-                    def privateKey = '/home/user/Downloads/newkey.pem' 
+                    def privateKey = 'pemkey' 
  
 
                     // SSH into the EC2 instance and execute Docker-related commands
