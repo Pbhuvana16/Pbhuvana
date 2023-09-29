@@ -10,8 +10,6 @@ pipeline {
             }
         }
 
- 
-
         stage('Push to Docker Hub') {
             steps {
                 sh "docker login -u bhuvana.pannem16@gmail.com -p 'Sasikala@1234??'"
@@ -20,27 +18,24 @@ pipeline {
             }
         }
 
- 
-
         stage('Deploy to EC2') {
             steps {
                 script {
-                    def ec2Host = '13.48.135.165'  
-                    def ec2User = 'ubuntu'  
+                    def ec2Host = '13.48.135.165'
+                    def ec2User = 'ubuntu'
                     withCredentials([file(credentialsId: 'pemkey', variable: 'PRIVATE_KEY_FILE')]) {
                         sh """
                         chmod 400 \$PRIVATE_KEY_FILE
 
-                        ssh -i \$PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host<<EOF
-                        sh "sudo docker login -u bhuvana.pannem16@gmail.com -p 'Sasikala@1234??'"
-                        sudo docker pull pbhuvana16/pbhuvana16:restapi
-                        sudo docker run -d -p 5000:5000 pbhuvana16/pbhuvana16:restapi
+                        ssh -i \$PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \$ec2User@\$ec2Host 'bash -s' << 'EOF'
+                        sudo /usr/bin/docker login -u bhuvana.pannem16@gmail.com -p 'Sasikala@1234??'
+                        sudo /usr/bin/docker pull pbhuvana16/pbhuvana16:restapi
+                        sudo /usr/bin/docker run -d -p 5000:5000 pbhuvana16/pbhuvana16:restapi
                         EOF
-                    """
+                        """
+                    }
                 }
             }
         }
     }
-}
-
 }
