@@ -27,7 +27,7 @@ pipeline {
                         sh """
                         chmod 400 \$PRIVATE_KEY_FILE
 
-                        ssh -i \$PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \$ec2User@\$ec2Host 'bash -s' << EOF
+                        ssh -i \$PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \$ec2User@\$ec2Host 'bash -s' <<EOF
                         sudo /usr/bin/docker login -u bhuvana.pannem16@gmail.com -p 'Sasikala@1234??'
                         sudo /usr/bin/docker pull pbhuvana16/pbhuvana16:restapi
                         sudo /usr/bin/docker run -d -p 5000:5000 pbhuvana16/pbhuvana16:restapi
