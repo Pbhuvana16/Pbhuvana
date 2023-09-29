@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     def ec2Host = '13.48.135.165'  
-                    def ec2User = 'ec2-user'  
+                    def ec2User = 'ubuntu'  
                     def privateKey = 'pemkey' 
                     def privateKeyPath = credentials(privateKey)
 
