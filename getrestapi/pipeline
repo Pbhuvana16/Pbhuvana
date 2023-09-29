@@ -23,7 +23,7 @@ pipeline {
                 script {
                     def ec2Host = '13.48.135.165'
                     def ec2User = 'ubuntu'
-                    withCredentials([file(credentialsId: 'pemkey', variable: 'PRIVATE_KEY_FILE')]) {
+                    withCredentials([file(credentialsId:'pemkey', variable:'PRIVATE_KEY_FILE')]) {
                         sh """
                         chmod 400 \$PRIVATE_KEY_FILE
 
