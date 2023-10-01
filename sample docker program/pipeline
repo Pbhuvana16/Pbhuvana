@@ -1,0 +1,58 @@
+pipeline {
+    
+    agent any
+    
+    environment {
+        DOCKER_REGISTRY_CREDENTIALS = credentials('Docker')  // Load Docker credentials from Jenkins
+    }
+    
+    // Define stages of the pipeline
+    stages {
+        stage('Build') {
+            steps {
+                // Navigate to the 'getrestapi' directory and build the Docker image
+                dir('sample docker program') {
+                    sh 'ls'
+                    sh 'docker build -t sample-docker-f Dockerfile .'
+                }
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                // Log in to Docker Hub using credentials and push the Docker image
+                withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh """
+                    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                    docker tag sample-docker pbhuvana16/pbhuvana16:sample-docker
+                    docker push pbhuvana16/pbhuvana16:sample-docker
+                    """
+                }
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                script {
+                    ec2Host = '13.48.135.165'  // EC2 host
+                    ec2User = 'ubuntu'         // SSH user on EC2
+                    withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    withCredentials([file(credentialsId: 'pemkey', variable: 'PRIVATE_KEY_FILE')]) {
+                        
+                        sh """
+                        chmod 400 $PRIVATE_KEY_FILE
+                        
+                        # SSH into the EC2 instance and perform Docker-related tasks
+                        ssh -i $PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host << 'EOF'
+                            sh "sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+                            sudo docker pull pbhuvana16/pbhuvana16:sample-docker
+                            sudo docker run -d pbhuvana16/pbhuvana16:sample-docker
+                       
+                        """
+                    }
+                  }
+                }
+            }
+        }
+    }
+}
