@@ -1,13 +1,19 @@
 pipeline {
+    // Set up the pipeline to run on any available agent
     agent any
+    
+    // Define environment variables to store Docker registry credentials
     environment {
-        DOCKER_REGISTRY_CREDENTIALS = credentials('Docker') 
-        DOCKER_USERNAME = credentials('Docker').username
-        DOCKER_PASSWORD = credentials('Docker').password
+        DOCKER_REGISTRY_CREDENTIALS = credentials('Docker')  // Load Docker credentials from Jenkins
+        DOCKER_USERNAME = credentials('Docker').username    // Extract Docker username from credentials
+        DOCKER_PASSWORD = credentials('Docker').password    // Extract Docker password from credentials
     }
+    
+    // Define stages of the pipeline
     stages {
         stage('Build') {
             steps {
+                // Navigate to the 'getrestapi' directory and build the Docker image
                 dir('getrestapi') {
                     sh 'ls'
                     sh 'docker build -t restapi -f Dockerfile .'
@@ -17,6 +23,7 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
+                // Log in to Docker Hub using credentials and push the Docker image
                 withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh """
                     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
@@ -30,16 +37,20 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    def ec2Host = '13.48.135.165'  
-                    def ec2User = 'ubuntu'  
+                    def ec2Host = '13.48.135.165'  // Define your EC2 host
+                    def ec2User = 'ubuntu'         // Define the SSH user on EC2
+                    
                     withCredentials([file(credentialsId: 'pemkey', variable: 'PRIVATE_KEY_FILE')]) {
+                        
                         sh """
                         chmod 400 $PRIVATE_KEY_FILE
-                        ssh -i $PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host << 'EOF'
-                        sh "sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
-                        sudo docker pull pbhuvana16/pbhuvana16:restapi
-                        sudo docker run -d -p 5000:5000 pbhuvana16/pbhuvana16:restapi
                         
+                        # SSH into the EC2 instance and perform Docker-related tasks
+                        ssh -i $PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host << 'EOF'
+                            sh "sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+                            sudo docker pull pbhuvana16/pbhuvana16:restapi
+                            sudo docker run -d -p 5000:5000 pbhuvana16/pbhuvana16:restapi
+                       
                         """
                     }
                 }
