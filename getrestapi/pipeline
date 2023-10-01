@@ -2,7 +2,6 @@ pipeline {
     
     agent any
     
-    
     environment {
         DOCKER_REGISTRY_CREDENTIALS = credentials('Docker')  // Load Docker credentials from Jenkins
     }
@@ -35,8 +34,8 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    ec2Host = '13.48.135.165'  // Define your EC2 host
-                    ec2User = 'ubuntu'         // Define the SSH user on EC2
+                    ec2Host = '13.48.135.165'  // EC2 host
+                    ec2User = 'ubuntu'         // SSH user on EC2
                     withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     withCredentials([file(credentialsId: 'pemkey', variable: 'PRIVATE_KEY_FILE')]) {
                         
