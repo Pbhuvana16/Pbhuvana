@@ -1,22 +1,18 @@
 from flask import Flask, request, jsonify
+import json
 
 # Create a Flask web application instance
 app = Flask(__name__)
 
-# Sample data 
-subjects = [
-    {"subject_number": "1", "subject_name": "Maths", "marks": "95"},
-    {"subject_number": "2", "subject_name": "Physics", "marks": "98"},
-    {"subject_number": "3", "subject_name": "Chemistry", "marks": "90"},
-    {"subject_number": "4", "subject_name": "English", "marks": "90"},
-    {"subject_number": "5", "subject_name": "Telugu", "marks": "95"},
-]
+# Read the config.json file
+with open('config.json', 'r') as config_file:
+    config_data = json.load(config_file)
 
 # Define a route that responds to HTTP GET requests at '/'
-@app.route('/', methods=['GET'])
+@app.route('/subjects', methods=['GET'])
 def get():
     # Return a JSON format of subjects
-    return jsonify(subjects)
+    return jsonify(config_data['subjects'])
 
 # Define a route that responds to HTTP GET requests at '/<marks>'
 @app.route('/<marks>', methods=['GET'])
@@ -24,7 +20,7 @@ def get_subjects(marks):
     subjects_in_same_marks = []
 
     # Iterate through the subjects list
-    for item in subjects:
+    for item in config_data['subjects']:
         if item['marks'] == marks:
             subjects_in_same_marks.append(item)
 
