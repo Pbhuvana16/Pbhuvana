@@ -13,7 +13,7 @@ pipeline {
                 // Navigate to the 'getrestapi' directory and build the Docker image
                 dir('sample docker program') {
                     sh 'ls'
-                    sh 'docker build -t sample-docker Dockerfile .'
+                    sh 'docker build -t sample-docker .'
                 }
             }
         }
