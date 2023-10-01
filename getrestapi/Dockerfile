@@ -3,7 +3,7 @@
 FROM python:3.8-slim
 # Set environment variables for Flask
 
-ENV FLASK_APP subject_flask.py
+ENV FLASK_APP getsubjects.py
 
 ENV FLASK_RUN_HOST 0.0.0.0
 
@@ -15,6 +15,7 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 
 COPY getsubjects.py /app 
+COPY config.json /app 
 
 # Install any needed packages specified in requirements.txt
 
