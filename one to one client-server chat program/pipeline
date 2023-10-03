@@ -13,7 +13,7 @@ pipeline {
                 // Navigate to the 'getrestapi' directory and build the Docker image
                 dir('one to one client-server chat program') {
                     sh 'ls'
-                    sh 'docker build -t one-to-one_client/server -f Dockerfile .'
+                    sh 'docker build -t one-to-one_client_server -f Dockerfile .'
                 }
             }
         }
@@ -24,8 +24,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh """
                     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-                    docker tag one-to-one_client/server pbhuvana16/pbhuvana16:one-to-one_client/server
-                    docker push pbhuvana16/pbhuvana16:one-to-one_client/server
+                    docker tag one-to-one_client_server pbhuvana16/pbhuvana16:one-to-one_client_server
+                    docker push pbhuvana16/pbhuvana16:one-to-one_client_server
                     """
                 }
             }
@@ -45,8 +45,8 @@ pipeline {
                         # SSH into the EC2 instance and perform Docker-related tasks
                         ssh -i $PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host << 'EOF'
                             sh "sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
-                            sudo docker pull pbhuvana16/pbhuvana16:one-to-one_client/server
-                            sudo docker run -d -p 5000:5000 pbhuvana16/pbhuvana16:one-to-one_client/server
+                            sudo docker pull pbhuvana16/pbhuvana16:one-to-one_client_server
+                            sudo docker run -d -p 5000:5000 pbhuvana16/pbhuvana16:one-to-one_client_server
                        
                         """
                     }
