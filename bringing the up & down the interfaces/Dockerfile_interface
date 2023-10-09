@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y openssh-client
 WORKDIR /pyats
 
 # Copy the Python script to the container
-COPY  check_interface.py  /pyats/
+COPY  check_interfaces.py  /pyats/
 COPY my_yaml2.yaml /pyats/
 # Run the Python script when the container launches
 ENTRYPOINT ["python", "/pyats/check_interface.py"] 
