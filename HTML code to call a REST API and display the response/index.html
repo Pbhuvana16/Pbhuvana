@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Call REST Service</title>
+</head>
+<body>
+  <button onclick="callRestService()">Call REST Service</button>
+  <div id="response"></div>
+
+  <script>
+    function callRestService() {
+      // Create a new XMLHttpRequest object.
+      const xhr = new XMLHttpRequest();
+
+      // Open a GET request to the REST service URL.
+      xhr.open('GET', 'http://127.0.0.1:5000/subjects');
+
+      // Set the request header to JSON.
+      xhr.setRequestHeader('Accept', 'application/json');
+
+      // Send the request.
+      xhr.send();
+
+      // Listen for the response.
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          // The request was successful.
+          const response = JSON.parse(xhr.responseText);
+
+          // Display the response in the HTML element with the ID `response`.
+          document.getElementById('response').innerHTML = JSON.stringify(response);
+        } else {
+          // The request failed.
+          console.log(xhr.statusText);
+        }
+      };
+    }
+  </script>
+</body>
+</html>
