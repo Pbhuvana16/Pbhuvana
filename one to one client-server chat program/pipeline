@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Navigate to the 'getrestapi' directory and build the Docker image
+                // Navigate to the 'one to one client-server chat program' directory and build the Docker image
                 dir('one to one client-server chat program') {
                     sh 'ls'
                     sh 'docker build -t one-to-one_client_server -f Dockerfile .'
