@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    ec2Host = '16.16.64.22'  // EC2 host
+                    ec2Host = '51.20.121.222'  // EC2 host
                     ec2User = 'ubuntu'         // SSH user on EC2
                     withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     withCredentials([file(credentialsId: 'pemkey', variable: 'PRIVATE_KEY_FILE')]) {
