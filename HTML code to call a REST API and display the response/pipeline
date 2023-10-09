@@ -87,7 +87,7 @@ pipeline {
 
                             sudo docker pull pbhuvana16/pbhuvana16:restapi_html
 
-                            sudo docker run -d -p 5000:5000 pbhuvana16/pbhuvana16:restapi_html
+                            sudo docker run -d -p 5001:5001 pbhuvana16/pbhuvana16:restapi_html
 
 
                         """
