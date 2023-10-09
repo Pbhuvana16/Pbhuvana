@@ -47,7 +47,7 @@ pipeline {
                 ssh -i $PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host << 'EOF'
                     sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
                     sudo docker pull pbhuvana16/pbhuvana16:pyats_hostname 
-                    sudo docker run -d -p 5004:5004 pbhuvana16/pbhuvana16:pyats_hostname 
+                    sudo docker run -d -p 5003:5003 pbhuvana16/pbhuvana16:pyats_hostname 
               
                 """
             }
