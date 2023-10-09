@@ -13,7 +13,7 @@ pipeline {
                
                 dir('Update the hostname of a device') {
                     sh 'ls'
-                    sh 'docker build -t pyats_hostname -f Dockerfile_interface .'
+                    sh 'docker build -t pyats_hostname -f Dockerfile_hostname .'
                 }
             }
         }
