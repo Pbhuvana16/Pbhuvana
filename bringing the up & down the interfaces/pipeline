@@ -32,27 +32,28 @@ pipeline {
         }
 
         stage('Deploy to EC2') {
-            steps {
-                script {
-                    ec2Host = '51.20.121.222'  // EC2 host
-                    ec2User = 'ubuntu'         // SSH user on EC2
-                    withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    withCredentials([file(credentialsId: 'pemkey', variable: 'PRIVATE_KEY_FILE')]) {
-                        
-                        sh """
-                        chmod 400 $PRIVATE_KEY_FILE
-                        
-                        # SSH into the EC2 instance and perform Docker-related tasks
-                        ssh -i $PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host << 'EOF'
-                            sh "sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
-                            sudo docker pull pbhuvana16/pbhuvana16:pyats_interface
-                            sudo docker run -d -p 5003:5003 pbhuvana16/pbhuvana16:pyats_interafce
-                       
-                        """
-                    }
-                  }
-                }
+    steps {
+        script {
+            ec2Host = '51.20.121.222'  // EC2 host
+            ec2User = 'ubuntu'         // SSH user on EC2
+
+            withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD'),
+                             file(credentialsId: 'pemkey', variable: 'PRIVATE_KEY_FILE')]) {
+
+                sh """
+                chmod 400 $PRIVATE_KEY_FILE
+                
+                # SSH into the EC2 instance and perform Docker-related tasks
+                ssh -i $PRIVATE_KEY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ec2User@$ec2Host << 'EOF'
+                    sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                    sudo docker pull pbhuvana16/pbhuvana16:pyats_interface  
+                    sudo docker run -d -p 5003:5003 pbhuvana16/pbhuvana16:pyats_interface 
+              
+                """
             }
         }
     }
+}
+}
+}
 }
