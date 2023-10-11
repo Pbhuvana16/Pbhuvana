@@ -66,8 +66,7 @@ def calculator():
 
 
         elif user_input == 'history':
-            file_path = 'calculator_results.txt'  # Replace 'your_file.txt' with the actual file path
-
+            file_path = 'calculator_results.txt' 
             try:
 
             # Open the file in read mode
@@ -77,7 +76,7 @@ def calculator():
                 # Read and print each line of the file
 
                     for line in file:
-                        print(line, end='')  # Use end='' to avoid adding extra line breaks
+                        print(line, end='')  
 
             except FileNotFoundError:
 
