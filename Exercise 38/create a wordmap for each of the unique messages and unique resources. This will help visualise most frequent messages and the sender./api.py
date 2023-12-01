@@ -24,7 +24,7 @@ def user_input():
         cursor.execute(sql, val)
         mydb.commit()
 
-    return render_template('user_input.html')
+    return render_template('service_index.html')
 
 
 @app.route('/dashboard', methods=['GET'])
@@ -78,7 +78,7 @@ def db_service():
         'Sender Font Sizes': sender_font_sizes
     }
 
-    return render_template('db_service.html', summary=summary)
+    return render_template('api_index.html', summary=summary)
 
 
 if __name__ == '__main__':
